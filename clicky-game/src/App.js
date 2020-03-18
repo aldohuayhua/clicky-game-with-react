@@ -2,39 +2,51 @@ import React from 'react';
 import './App.css';
 import friends from "./friends.json"
 import FriendCard from './components/FriendCard/index.js';
-import Wrapper from "./components/Wrapper/index.js"
+import Wrapper from "./components/Wrapper/index.js";
+import Stringify from 'react-stringify'
 
 class App extends React.Component{
   constructor(){
     super()
     this.state = {
-      friends : friends
+      friends : friends,
+      friendsClickedOn: []
     }
-    // this.FriendInfo = this.FriendInfo.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  // FriendInfo(){
-  //   return(
-  //     this.state.friends.map(
-  //       function x(friend){
-  //         return(<FriendCard key={friend.id} name={friend.name} image={friend.image} />)
-  //       }
-  //     )
-  //   )
-  // }
+
+
+  handleClick = (id) =>{
+    this.setState((prevState) =>{
+      const mappingFriendsClickedOn = prevState.friendsClickedOn.map((friend)=>{
+        if(id === friend){
+          return(
+            alert("sorry but you have selected this friend before, you loose")
+          )
+        }
+      })
+      prevState.friendsClickedOn.push(id)
+      return{
+        friendsClickedOn: prevState.friendsClickedOn
+      }
+    } )
+    setTimeout(()=>{console.log(this.state.friendsClickedOn);}, 500)
+  }
+
+
 
   render(){
-    console.log(this.state.friends)
+    // console.log(this.state.friends)
     const FriendInfo = this.state.friends.map(
-      function x(friend){
-        return(<FriendCard key={friend.id} image={friend.image}/>)
+      (friend) => {
+        return(<FriendCard key={friend.id} image={friend.image} id={friend.id} name={friend.name} handleClick={this.handleClick}/>)
       }
+
     )
     return (
       <Wrapper>
         {/* <h1 className="title">Clicky Game</h1> */}
-        {/* <FriendCard /> */}
-        {/* {this.FriendInfo()} */}
         {FriendInfo}
       </Wrapper>
     );
