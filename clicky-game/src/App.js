@@ -10,6 +10,7 @@ class App extends React.Component{
     super()
     this.state = {
       friends : friends,
+      score: 0,
       friendsClickedOn: []
     }
     this.handleClick = this.handleClick.bind(this)
@@ -18,29 +19,47 @@ class App extends React.Component{
 
 
   handleClick = (id) =>{
-    this.setState((prevState) =>{
-      const mappingFriendsClickedOn = prevState.friendsClickedOn.map((friend)=>{
-        if(id === friend){
-          return(
-            alert("sorry but you have selected this friend before, you loose")
-          )
+    this.setState((prevState)=>{
+      // console.log(prevState)
+      const newArray = prevState.friends.map((friend)=>{
+        if(friend.id === id){
+          return{
+            ...friend,
+            clickedOn: true
+           }
+        }else{
+          return friend
         }
       })
-      prevState.friendsClickedOn.push(id)
-      return{
-        friendsClickedOn: prevState.friendsClickedOn
+      return {
+        friends : newArray
       }
-    } )
-    setTimeout(()=>{console.log(this.state.friendsClickedOn);}, 500)
+    })
+    // this.setState((prevState) =>{
+    //   prevState.friendsClickedOn.map((friend)=>{
+    //     if(id === friend){
+    //       console.log("same" + friend)
+    //       return{
+    //         friendsClickedOn : prevState.friendsClickedOn.splice(0,prevState.friendsClickedOn.length)
+    //       }
+    //     }
+    //   }
+    //   )
+    //   prevState.friendsClickedOn.push(id)
+    //   console.log("id being added")
+    //   return{
+    //     friendsClickedOn: prevState.friendsClickedOn
+    //   }
+    // } )
+    setTimeout(()=>{console.log(this.state.friends);}, 500)
   }
 
 
 
   render(){
-    // console.log(this.state.friends)
     const FriendInfo = this.state.friends.map(
       (friend) => {
-        return(<FriendCard key={friend.id} image={friend.image} id={friend.id} name={friend.name} handleClick={this.handleClick}/>)
+        return(<FriendCard key={friend.id} image={friend.image} id={friend.id} name={friend.name} clickedOn={friend.clickedOn} handleClick={this.handleClick}/>)
       }
 
     )
