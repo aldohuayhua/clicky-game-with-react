@@ -11,22 +11,26 @@ class App extends React.Component{
     this.state = {
       friends : friends,
       score: 0,
-      friendsClickedOn: []
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.handleClick = this.handleClick.bind(this);
   }
 
 
 
   handleClick = (id) =>{
+
     this.setState((prevState)=>{
-      // console.log(prevState)
       const newArray = prevState.friends.map((friend)=>{
         if(friend.id === id){
-          return{
-            ...friend,
-            clickedOn: true
-           }
+          if(friend.clickedOn){
+            alert("sorry this friend has already been clicked on you lose")
+            return friend
+          }else{
+            return{
+              ...friend,
+              clickedOn: true
+             }
+          }
         }else{
           return friend
         }
@@ -35,23 +39,8 @@ class App extends React.Component{
         friends : newArray
       }
     })
-    // this.setState((prevState) =>{
-    //   prevState.friendsClickedOn.map((friend)=>{
-    //     if(id === friend){
-    //       console.log("same" + friend)
-    //       return{
-    //         friendsClickedOn : prevState.friendsClickedOn.splice(0,prevState.friendsClickedOn.length)
-    //       }
-    //     }
-    //   }
-    //   )
-    //   prevState.friendsClickedOn.push(id)
-    //   console.log("id being added")
-    //   return{
-    //     friendsClickedOn: prevState.friendsClickedOn
-    //   }
-    // } )
     setTimeout(()=>{console.log(this.state.friends);}, 500)
+    
   }
 
 
