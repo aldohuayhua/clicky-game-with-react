@@ -34,44 +34,58 @@ class App extends React.Component{
   }
 
   handleClick = (id) =>{
-
-    this.setState((prevState)=>{
-      const newArray = prevState.friends.map((friend)=>{
-        if(friend.id === id){
-          if(friend.clickedOn){
-            // alert("sorry this friend has already been clicked on you lose")
-            return this.resetGame()
-          }else{
-            return{
-              ...friend,
-              clickedOn: true
-             }
-          }
-        }else{
-          return friend
+    let guessedCorrectly = false;
+    const newData = this.state.friends.map(item=>{
+      const newItem = { ...item };
+      if(newItem.id === id){
+        console.log(newItem)
+        if(newItem.clickedOn === false){
+          newItem.clickedOn = true;
+          guessedCorrectly = true;
         }
-      })
-      return {
-        friends : newArray
       }
+      return newItem
     })
+    // console.log(this.state.friends)
+    guessedCorrectly ? console.log("nice, ") : console.log("sad");
+
+    // this.setState((prevState)=>{
+    //   const newArray = prevState.friends.map((friend)=>{
+    //     if(friend.id === id){
+    //       if(friend.clickedOn){
+    //         // alert("sorry this friend has already been clicked on you lose")
+    //         return this.resetGame()
+    //       }else{
+    //         return{
+    //           ...friend,
+    //           clickedOn: true
+    //          }
+    //       }
+    //     }else{
+    //       return friend
+    //     }
+    //   })
+    //   return {
+    //     friends : newArray
+    //   }
+    // })
     // setTimeout(()=>{console.log(this.state.friends);}, 500)
     
   }
 
-  resetGame(){
-    console.log("i should now reset state for all friends.clickedOn to false")
-    this.setState((prevState)=>{
-    const resetData = prevState.friends.map((item) => {
-      console.log(item)
-      return ({ ...item, clickedOn: false })
-    })
-    // console.log(resetData)
-    return {
-      friends : resetData
-    }
-    })
-  }
+  // resetGame(){
+  //   console.log("i should now reset state for all friends.clickedOn to false")
+  //   this.setState((prevState)=>{
+  //   const resetData = prevState.friends.map((item) => {
+  //     console.log(item)
+  //     return ({ ...item, clickedOn: false })
+  //   })
+  //   // console.log(resetData)
+  //   return {
+  //     friends : resetData
+  //   }
+  //   })
+  // }
 
   render(){
     const FriendInfo = this.state.friends.map(
@@ -80,7 +94,7 @@ class App extends React.Component{
           key={friend.id} 
           id={friend.id} 
           image={friend.image} 
-          clickedOn={friend.clickedOn} 
+          // clickedOn={friend.clickedOn} 
           handleClick={this.handleClick}/>)
       }
 
