@@ -3,6 +3,7 @@ import './App.css';
 import friends from "./friends.json"
 import FriendCard from './components/FriendCard/index.js';
 import Wrapper from "./components/Wrapper/index.js";
+import Nav from "./components/Nav/index.js"
 
 class App extends React.Component {
   constructor() {
@@ -86,10 +87,10 @@ class App extends React.Component {
     )
     return (
       <Wrapper>
-        <div>
+        <Nav score={this.state.score} topScore={this.state.topScore}/>
         <h1>Score: {this.state.score}</h1>
         <h1>Top Score: {this.state.topScore}</h1>
-        </div>
+
         {/* <h1 className="title">Clicky Game</h1> */}
         {FriendInfo}
 
