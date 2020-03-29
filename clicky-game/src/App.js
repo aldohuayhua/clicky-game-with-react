@@ -4,11 +4,11 @@ import friends from "./friends.json"
 import FriendCard from './components/FriendCard/index.js';
 import Wrapper from "./components/Wrapper/index.js";
 
-class App extends React.Component{
-  constructor(){
+class App extends React.Component {
+  constructor() {
     super()
     this.state = {
-      friends : friends,
+      friends: friends,
       score: 0,
       topScore: 0
     }
@@ -17,92 +17,82 @@ class App extends React.Component{
     // this.resetGame = this.resetGame.bind(this);
   }
 
-  componentDidMount(){
-    this.setState({friends: this.shuffleData(this.state.friends)})
+  componentDidMount() {
+    this.setState({ friends: this.shuffleData(this.state.friends) })
   }
 
-  shuffleData = friends =>{
+  shuffleData = friends => {
     let i = friends.length - 1;
-    while (i > 0){
-      const j = Math.floor(Math.random() * (i+1));
+    while (i > 0) {
+      const j = Math.floor(Math.random() * (i + 1));
       const temp = friends[i];
-      friends[i]= friends[j];
-      friends[j]= temp;
+      friends[i] = friends[j];
+      friends[j] = temp;
       i--
     }
     return friends
   }
 
-  handleClick = (id) =>{
+  handleClick = (id) => {
     let guessedCorrectly = false;
-    const newData = this.state.friends.map(item=>{
+    const newData = this.state.friends.map(item => {
       const newItem = { ...item };
-      if(newItem.id === id){
+      if (newItem.id === id) {
         console.log(newItem)
-        if(newItem.clickedOn === false){
+        if (newItem.clickedOn === false) {
           newItem.clickedOn = true;
           guessedCorrectly = true;
         }
       }
       return newItem
     })
-    // console.log(this.state.friends)
-    guessedCorrectly ? console.log("nice, ") : console.log("sad");
-
-    // this.setState((prevState)=>{
-    //   const newArray = prevState.friends.map((friend)=>{
-    //     if(friend.id === id){
-    //       if(friend.clickedOn){
-    //         // alert("sorry this friend has already been clicked on you lose")
-    //         return this.resetGame()
-    //       }else{
-    //         return{
-    //           ...friend,
-    //           clickedOn: true
-    //          }
-    //       }
-    //     }else{
-    //       return friend
-    //     }
-    //   })
-    //   return {
-    //     friends : newArray
-    //   }
-    // })
-    // setTimeout(()=>{console.log(this.state.friends);}, 500)
-    
+    guessedCorrectly ? this.handleCorrectGuess(newData) : this.handleIncorrectGuess(newData);
   }
 
-  // resetGame(){
-  //   console.log("i should now reset state for all friends.clickedOn to false")
-  //   this.setState((prevState)=>{
-  //   const resetData = prevState.friends.map((item) => {
-  //     console.log(item)
-  //     return ({ ...item, clickedOn: false })
-  //   })
-  //   // console.log(resetData)
-  //   return {
-  //     friends : resetData
-  //   }
-  //   })
-  // }
+  handleIncorrectGuess = (data) => {
+    this.setState({
+      friends: this.resetGame(data),
+      score: 0
+    });
+  }
 
-  render(){
+  handleCorrectGuess = (data) => {
+    const { topScore, score } = this.state;
+    const newScore = score + 1;
+    const newTopScore = Math.max(newScore, topScore);
+    console.log("nice, ")
+    this.setState({
+      friends: this.shuffleData(data),
+      score: newScore,
+      topScore: newTopScore
+    })
+  }
+  resetGame = (data) => {
+    const resetGame = data.map(item => ({ ...item, clickedOn: false }));
+    return this.shuffleData(resetGame);
+  }
+
+  render() {
     const FriendInfo = this.state.friends.map(
       (friend) => {
-        return(<FriendCard 
-          key={friend.id} 
-          id={friend.id} 
-          image={friend.image} 
+        return (<FriendCard
+          key={friend.id}
+          id={friend.id}
+          image={friend.image}
           // clickedOn={friend.clickedOn} 
-          handleClick={this.handleClick}/>)
+          handleClick={this.handleClick} />)
       }
 
     )
     return (
       <Wrapper>
+        <div>
+        <h1>Score: {this.state.score}</h1>
+        <h1>Top Score: {this.state.topScore}</h1>
+        </div>
         {/* <h1 className="title">Clicky Game</h1> */}
         {FriendInfo}
+
       </Wrapper>
     );
   }
