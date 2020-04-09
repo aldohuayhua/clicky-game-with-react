@@ -88,10 +88,7 @@ class App extends React.Component {
           key={friend.id}
           id={friend.id}
           image={friend.image}
-          // clickedOn={friend.clickedOn} 
           handleClick={this.handleClick} 
-          // onMouseOver={this.handleHover}
-          // onMouseOver={console.log('Over')}
           />)
       }
 
