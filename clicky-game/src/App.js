@@ -4,6 +4,9 @@ import friends from "./friends.json"
 import FriendCard from './components/FriendCard/index.js';
 import Wrapper from "./components/Wrapper/index.js";
 import Nav from "./components/Nav/index.js"
+import Header from "./components/Header/index.js"
+
+
 
 class App extends React.Component {
   constructor() {
@@ -14,7 +17,8 @@ class App extends React.Component {
       topScore: 0
     }
     this.handleClick = this.handleClick.bind(this);
-    this.shuffleData = this.shuffleData.bind(this)
+    this.shuffleData = this.shuffleData.bind(this);
+    // this.handleHover = this.handleHover.bind(this)
     // this.resetGame = this.resetGame.bind(this);
   }
 
@@ -50,6 +54,10 @@ class App extends React.Component {
     guessedCorrectly ? this.handleCorrectGuess(newData) : this.handleIncorrectGuess(newData);
   }
 
+  // handleHover = () => {
+  //   console.log("Hovered")
+  // }
+
   handleIncorrectGuess = (data) => {
     this.setState({
       friends: this.resetGame(data),
@@ -81,20 +89,23 @@ class App extends React.Component {
           id={friend.id}
           image={friend.image}
           // clickedOn={friend.clickedOn} 
-          handleClick={this.handleClick} />)
+          handleClick={this.handleClick} 
+          // onMouseOver={this.handleHover}
+          // onMouseOver={console.log('Over')}
+          />)
       }
 
     )
     return (
-      <Wrapper>
-        <Nav score={this.state.score} topScore={this.state.topScore}/>
-        <h1>Score: {this.state.score}</h1>
-        <h1>Top Score: {this.state.topScore}</h1>
+      <div>
+        <Nav score={this.state.score} topScore={this.state.topScore} />
+        <Header />
+        <Wrapper>
+          {/* <h1 className="title">Clicky Game</h1> */}
+          {FriendInfo}
 
-        {/* <h1 className="title">Clicky Game</h1> */}
-        {FriendInfo}
-
-      </Wrapper>
+        </Wrapper>
+      </div>
     );
   }
 }
