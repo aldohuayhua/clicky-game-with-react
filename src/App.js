@@ -18,8 +18,6 @@ class App extends React.Component {
     }
     this.handleClick = this.handleClick.bind(this);
     this.shuffleData = this.shuffleData.bind(this);
-    // this.handleHover = this.handleHover.bind(this)
-    // this.resetGame = this.resetGame.bind(this);
   }
 
   componentDidMount() {
@@ -53,10 +51,6 @@ class App extends React.Component {
     })
     guessedCorrectly ? this.handleCorrectGuess(newData) : this.handleIncorrectGuess(newData);
   }
-
-  // handleHover = () => {
-  //   console.log("Hovered")
-  // }
 
   handleIncorrectGuess = (data) => {
     this.setState({
@@ -98,7 +92,6 @@ class App extends React.Component {
         <Nav score={this.state.score} topScore={this.state.topScore} />
         <Header />
         <Wrapper>
-          {/* <h1 className="title">Clicky Game</h1> */}
           {FriendInfo}
 
         </Wrapper>
